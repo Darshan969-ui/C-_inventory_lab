@@ -45,42 +45,58 @@ namespace WindowsFormsApp1
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            
-            if (btnAdd.Enabled)
+            try
             {
-                InventoryItem inventory = new InventoryItem(this);
-               
-                inventory.Show();
+                if (btnAdd.Enabled)
+                {
+                    InventoryItem inventory = new InventoryItem(this);
 
+                    inventory.Show();
+
+                }
+            }catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            
+
         }
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (listBox1.SelectedIndex != -1)
+            try
             {
-                DialogResult result = MessageBox.Show("Are you sure you want to delete this item?", "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                if (result == DialogResult.Yes)
+                if (listBox1.SelectedIndex != -1)
                 {
-                    int selectedIndex = listBox1.SelectedIndex;
+                    DialogResult result = MessageBox.Show("Are you sure you want to delete this item?", "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                    if (selectedIndex >= 0 && selectedIndex < inventorylist.Count)
+                    if (result == DialogResult.Yes)
                     {
-                        inventorylist.RemoveAt(selectedIndex);
-                        InventoryDB.SaveItems(inventorylist);
-                        updateListbox();
-                        MessageBox.Show($"Item at index {selectedIndex} deleted successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Selected index is out of range.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        int selectedIndex = listBox1.SelectedIndex;
+
+                        if (selectedIndex >= 0 && selectedIndex < inventorylist.Count)
+                        {
+                            inventorylist.RemoveAt(selectedIndex);
+                            InventoryDB.SaveItems(inventorylist);
+                            updateListbox();
+                            MessageBox.Show($"Item at index {selectedIndex} deleted successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Selected index is out of range.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
                 }
+                else
+                {
+                    MessageBox.Show("Please select an item to delete.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
             }
-            else
+            catch(Exception ex)
             {
-                MessageBox.Show("Please select an item to delete.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            
         }
 
 
