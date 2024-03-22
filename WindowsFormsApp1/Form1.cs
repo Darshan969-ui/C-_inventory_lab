@@ -58,23 +58,23 @@ namespace WindowsFormsApp1
         {
             if (listBox1.SelectedIndex != -1)
             {
-                int selectedIndex = listBox1.SelectedIndex;
+                DialogResult result = MessageBox.Show("Are you sure you want to delete this item?", "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                if (selectedIndex >= 0 && selectedIndex < inventorylist.Count)
+                if (result == DialogResult.Yes)
                 {
-                    inventorylist.RemoveAt(selectedIndex);
+                    int selectedIndex = listBox1.SelectedIndex;
 
-                   
-                    InventoryDB.SaveItems(inventorylist);
-
-                  
-                    updateListbox();
-
-                    MessageBox.Show($"Item at index {selectedIndex} deleted successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    MessageBox.Show("Selected index is out of range.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    if (selectedIndex >= 0 && selectedIndex < inventorylist.Count)
+                    {
+                        inventorylist.RemoveAt(selectedIndex);
+                        InventoryDB.SaveItems(inventorylist);
+                        updateListbox();
+                        MessageBox.Show($"Item at index {selectedIndex} deleted successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Selected index is out of range.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
             else
@@ -82,6 +82,7 @@ namespace WindowsFormsApp1
                 MessageBox.Show("Please select an item to delete.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+
 
 
         private void btnExit_Click(object sender, EventArgs e)
